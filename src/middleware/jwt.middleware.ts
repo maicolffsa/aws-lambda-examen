@@ -49,7 +49,7 @@ import { NextFunction, Request, Response } from 'express';
     const secretKey = process.env.JWT_SECRET_KEY || 'yourSecretKey';
   
     // Token expiration time (adjust as needed)
-    const expires = 15;
+    const expires = 60*15;
   
     // Create and sign the JWT token
     const token = jwt.sign(payload, secretKey, { expiresIn: expires });

@@ -4,11 +4,23 @@ import { generateToken } from '../middleware/jwt.middleware';
 
 export const getTarget = async (req: Request, res: Response): Promise<void> => {
 
-  const result = await getTargetData({ body: JSON.stringify(req.body) } as any);
+  const authHeader: string | undefined = req.header("Authorization");
+
+    
+  
+    if (!authHeader) {
+      res.status(401).json({ error: 'Authorization header is missing' });
+    }
+    else{
+
+        const [bearer, token] = authHeader.split(' ');
+
+  const result = await getTargetData({ body: JSON.stringify({"token":token}) } as any);
   res
     .header("Access-Control-Allow-Origin", "*")
     .status(result.statusCode)
     .json(JSON.parse(result.body));
+    }
 
 
 };

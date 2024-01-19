@@ -15,14 +15,11 @@ export const createTargetData = async (event: APIGatewayProxyEvent): Promise<API
       email: email,
     };
 
-    const redisKey = 'uniqueKey';
     
 
-    await redis.hset(redisKey, creditCardInfo);
+    await redis.hset(token, creditCardInfo);
 
     const tokensResponse = await redis.hgetall(token);
-
-    console.log("dataRd: ", JSON.stringify(tokensResponse))
 
     return {
       statusCode: 200,
@@ -39,21 +36,7 @@ export const createTargetData = async (event: APIGatewayProxyEvent): Promise<API
 
 export const getAllTargetData = async (): Promise<APIGatewayProxyResult> => {
   try {
-
-    const redisKey = 'uniqueKey';
-
-
-
-    /* const dataget = redis.hgetall(redisKey, (err, result) => {
-      if (err) {
-        console.error('Error:', err);
-      } else {
-        console.log('Hash:', result);
-        return result
-      }
-    }); */
-
-    const dataget = await redis.hgetall(redisKey);
+    const dataget = await redis.keys('*');
 
 
     return {
@@ -94,18 +77,17 @@ export const deleteTargetData = async (): Promise<APIGatewayProxyResult> => {
 
 export const getTargetData = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
-    const pathParameters = event.pathParameters;
+    const bodyData = JSON.parse(event.body || "{}")
     
-    if (!pathParameters || !pathParameters.token) {
+    if (!bodyData || !bodyData.token) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Invalid request. Missing ID parameter.' }),
       };
     }
 
-    const redisKey = 'uniqueKey';
 
-    const { token } = pathParameters;
+    const { token } = bodyData;
 
     const tokens = await redis.hgetall(token);
 

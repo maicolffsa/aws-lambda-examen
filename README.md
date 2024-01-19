@@ -1,4 +1,4 @@
-# AWS Lambda with Redis, Terraform, Node.js, and TypeScript
+# AWS Lambda with Redis, Node.js, and TypeScript
 
 [![Jest Workflow](https://github.com/claudivanfilho/aws-lambda-redis-terraform-app/actions/workflows/tests.yaml/badge.svg)](https://github.com/claudivanfilho/aws-lambda-redis-terraform-app/actions/workflows/tests.yaml)
 
@@ -43,7 +43,7 @@ Before you begin, ensure that you have the following prerequisites installed:
   yarn dev
 ```
 
-- The Lambda function will listen for POST requests locally at http://localhost:300/lambda.
+- The Lambda function will listen for POST requests locally at http://localhost:3000/api/target.
 
 ## Deploy AWS Lambda from your Local Machine
 
