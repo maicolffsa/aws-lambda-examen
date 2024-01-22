@@ -6,5 +6,8 @@ export const redis =
         host: "localhost",
         port: 6379,
       })
-    : new Redis(process.env.REDIS_DB_PATH!);
+    : new Redis({
+        host: process.env.REDIS_DB_PATH,
+        port: 6379
+      });
 

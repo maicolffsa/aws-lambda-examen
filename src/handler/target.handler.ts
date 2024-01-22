@@ -23,7 +23,7 @@ export const createTargetData = async (event: APIGatewayProxyEvent): Promise<API
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Item added successfully', token: tokensResponse }),
+      body: JSON.stringify({ message: 'Item added successfully', token: tokensResponse.token }),
     };
   } catch (error) {
     console.error(error);
@@ -89,18 +89,24 @@ export const getTargetData = async (event: APIGatewayProxyEvent): Promise<APIGat
 
     const { token } = bodyData;
 
-    const tokens = await redis.hgetall(token);
+    const resultData = await redis.hgetall(token);
 
-    if (!tokens) {
+    if (!resultData) {
       return {
         statusCode: 404,
         body: JSON.stringify({ error: 'Item not found' }),
       };
     }
 
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ tokens }),
+      body: JSON.stringify({"cardNumber": resultData.cardNumber,
+                            /* "token":tokens.token, */
+                            "email": resultData.email,
+                            "expirationMonth": resultData.expirationMonth,
+                            "expirationYear": resultData.expirationYear 
+                          }),
     };
   } catch (error) {
     console.error(error);
